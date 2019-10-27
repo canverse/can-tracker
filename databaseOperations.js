@@ -14,17 +14,23 @@ function getDatabase() {
 }
 
 
-export function addTorrent(parsedTorrent) {
-  const db = getDatabase();
+export async function addTorrent(parsedTorrent) {
+  const { infoHash } = parsedTorrent;
+  const isTracked = await checkTorrentIsTracked(infoHash);
 
-  return new Promise((resolve, reject) => {
-    db.run('INSERT INTO tracked_torrents(info_hash) VALUES (?)', [parsedTorrent.infoHash], (err) => {
+  if (isTracked) {
+    console.warn(`Torrent with infoHash ${infoHash} is already tracked!`);
+    return Promise.resolve();
+  }
+
+  return new Promise(async (resolve, reject) => {
+    const db = getDatabase();
+    db.run('INSERT INTO tracked_torrents(info_hash) VALUES (?)', [infoHash], (err) => {
       db.close();
       if (err !== null) {
         console.error(`Couldn't add torrent with info_hash: ${infoHash} to tracking database!`);
         console.error(err);
-        reject(err);
-        return;
+        return reject(err);
       }
       resolve();
     })
