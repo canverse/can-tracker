@@ -1,7 +1,7 @@
-import { Server } from 'bittorrent-tracker';
+import { startServer } from './tracker.js';
+import bootstrap from './bootstrap.js';
 
-const server = new Server({
-  filter: (infoHash, params, cb) => {
+bootstrap().then(() => {
+  startServer();
+});
 
-  }
-})
