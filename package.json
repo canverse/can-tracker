@@ -5,13 +5,18 @@
   "scripts": {
     "start": "node -r dotenv/config entry.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node -r esm scripts/postinstall.js"
+    "build": "node -r esm scripts/postinstall.js"
   },
   "bin": {
     "createCanTorrent": "./bin/.build/createTorrent.js",
     "startCanTracker": "./bin/.build/startTrackerServer.js",
     "trackCanTorrents": "./bin/.build/addTorrentToTracker.js"
   },
+  "files": [
+    "bin/",
+    "*.js",
+    "scripts/"
+  ],
   "keywords": [
     "cli",
     "torrent"
