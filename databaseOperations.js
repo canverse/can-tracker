@@ -32,6 +32,7 @@ export async function addTorrent(parsedTorrent) {
         console.error(err);
         return reject(err);
       }
+      console.info('Torrent with infoHash ${infoHash} is now being tracked!')
       resolve();
     })
   })

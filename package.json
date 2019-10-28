@@ -9,7 +9,8 @@
   },
   "bin": {
     "createCanTorrent": "./bin/.build/createTorrent.js",
-    "startCanTracker": "./bin/.build/startTrackerServer.js"
+    "startCanTracker": "./bin/.build/startTrackerServer.js",
+    "trackCanTorrents": "./bin/.build/addTorrentToTracker.js"
   },
   "keywords": [],
   "author": "",
