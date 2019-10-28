@@ -22,7 +22,8 @@ function filterTorrents(infoHash, params, cb) {
 
 export function startServer() {
   const server = new Server({
-    filter: filterTorrents
+    filter: filterTorrents,
+    trustProxy: true,
   });
 
   server.on('error', err => {
