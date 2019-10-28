@@ -1,6 +1,6 @@
 {
   "name": "can-tracker",
-  "version": "1.0.0.0",
+  "version": "0.0.1",
   "description": "Starts a simple bittorent tracker for filesharing",
   "scripts": {
     "start": "node -r dotenv/config entry.js",
