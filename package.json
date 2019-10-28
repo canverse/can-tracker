@@ -1,7 +1,7 @@
 {
   "name": "can-tracker",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.0.0.1",
+  "description": "Starts a simple bittorent tracker for filesharing",
   "scripts": {
     "start": "node -r dotenv/config entry.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,9 +12,13 @@
     "startCanTracker": "./bin/.build/startTrackerServer.js",
     "trackCanTorrents": "./bin/.build/addTorrentToTracker.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cli",
+    "torrent"
+  ],
+  "repository": "https://github.com/canibanoglu/can-tracker",
+  "author": "Can Ibanoglu",
+  "license": "MIT",
   "dependencies": {
     "assert-env": "^0.6.0",
     "bittorrent-tracker": "^9.14.4",
