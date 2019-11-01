@@ -17,7 +17,13 @@ const {
 
 const {
   CAN_TRACKER_ANNOUNCE_URL,
+  CAN_TRACKER_WEB_SEED_URL
 } = process.env;
+
+if (!CAN_TRACKER_ANNOUNCE_URL || !CAN_TRACKER_WEB_SEED_URL) {
+  console.error('Please set the require environment variables');
+  process.exit(1);
+}
 
 
 const processDir = process.cwd();
@@ -42,7 +48,8 @@ createTorrent(argv._, {
   private: true,
   announceList: [
       [CAN_TRACKER_ANNOUNCE_URL],
-  ]
+  ],
+  urlList: [CAN_TRACKER_WEB_SEED_URL],
 }, (err, torrentBuffer) => {
   if (err) throw err;
 
