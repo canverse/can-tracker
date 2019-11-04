@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 import { checkEnvironmentVariables } from '../utils';
 
-checkEnvironmentVariables();
-
 const path = require('path');
 const createTorrent = require('create-torrent');
 const parseTorrent = require('parse-torrent');
 const fs = require('fs').promises;
+const fsStatSync = require('fs').statSync;
 const argv = require('minimist')(process.argv.slice(2));
 
 const {
   addTorrent: addTorrentToDatabase
 } = require('../databaseOperations.js');
 
-// TODO: Check for env variables and fail if not present with instructions
+checkEnvironmentVariables();
 
 const {
   CAN_TRACKER_ANNOUNCE_URL,
@@ -42,14 +41,26 @@ async function writeTorrentFile(fileName, torrentBuffer) {
       });
 }
 
+let webSeedUrl = CAN_TRACKER_WEB_SEED_URL;
 
+if (argv._.length === 1) {
+    const [ fileName ] = argv._;
+    const stat = fsStatSync(fileName);
+    if (stat.isFile()) {
+        const split = fileName.split(path.sep);
+        const name = split[split.length - 1];
+        webSeedUrl = path.join(CAN_TRACKER_WEB_SEED_URL, name);
+    }
+}
+
+console.log(argv._);
 console.info("Creating torrent...");
 createTorrent(argv._, {
   private: true,
   announceList: [
       [CAN_TRACKER_ANNOUNCE_URL],
   ],
-  urlList: [CAN_TRACKER_WEB_SEED_URL],
+  urlList: [webSeedUrl],
 }, (err, torrentBuffer) => {
   if (err) throw err;
 
