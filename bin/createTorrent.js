@@ -42,21 +42,25 @@ async function writeTorrentFile(fileName, torrentBuffer) {
       });
 }
 
+const sanitizedAnnounceUURL = CAN_TRACKER_ANNOUNCE_URL.endsWith('/') ?
+    CAN_TRACKER_ANNOUNCE_URL.slice(0, CAN_TRACKER_ANNOUNCE_URL.length - 1) :
+    CAN_TRACKER_ANNOUNCE_URL;
 
 console.info("Creating torrent...");
 createTorrent(argv._, {
   private: true,
   announceList: [
-      [CAN_TRACKER_ANNOUNCE_URL],
+      [sanitizedAnnounceUURL],
   ],
   urlList: [CAN_TRACKER_WEB_SEED_URL],
 }, (err, torrentBuffer) => {
   if (err) throw err;
 
   const parsedTorrent = parseTorrent(torrentBuffer);
+  const torrentFileName = `can_tracker_${parsedTorrent.info.name}.torrent`;
   return Promise.all([
       addTorrentToDatabase(parsedTorrent),
-      writeTorrentFile(`can_tracker_${parsedTorrent.info.name}.torrent`, torrentBuffer)
+      writeTorrentFile(torrentFileName, torrentBuffer)
   ]).then(() => {
 
   })

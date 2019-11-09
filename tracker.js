@@ -7,7 +7,6 @@ const {
 
 
 function filterTorrents(infoHash, params, cb) {
-  console.log('infoHash:', infoHash);
   return checkTorrentIsTracked(infoHash).then(isTracked => {
     if (isTracked) {
       cb(null);

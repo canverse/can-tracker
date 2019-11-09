@@ -9,9 +9,7 @@ export function checkEnvironmentVariables() {
         'CAN_TRACKER_WEB_SEED_URL'
     ]);
   } catch (err) {
-    console.error('You need to set the following environment variables for CanTracker to work');
-    console.error('CAN_TRACKER_ANNOUNCE_URL', 'CAN_TRACKER_PATH', 'CAN_TRACKER_PORT');
-    console.log(process.env);
+    console.error(err.message);
     process.exit(1);
   }
 }
