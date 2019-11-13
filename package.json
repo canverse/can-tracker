@@ -1,13 +1,14 @@
 {
   "name": "can-tracker",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Starts a simple bittorent tracker for filesharing",
   "scripts": {
     "start": "node -r dotenv/config entry.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node -r esm scripts/postinstall.js",
-    "postinstall": "scripts/postinstall.js"
+    "postinstall": "entryFiles/postinstall.js"
   },
+  "type": "module",
   "bin": {
     "createCanTorrent": "./bin/.build/createTorrent.js",
     "startCanTracker": "./bin/.build/startTrackerServer.js",
