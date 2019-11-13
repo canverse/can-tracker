@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { wrapBinaryCommands } from "./wrapBinaryCommands";
+const { wrapBinaryCommands } = require("./wrapBinaryCommands");
 
 Promise.all([wrapBinaryCommands()]).then(() => {
   console.log("Done settin up");
