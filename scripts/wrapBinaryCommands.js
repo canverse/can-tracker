@@ -5,6 +5,7 @@ const path = require('path');
 const WRAPPER_CONTENT = fileName => `#!/usr/bin/env node
 const path = require('path');
 require = require('esm')(module);
+console.log(module.path);
 module.exports = require(path.join(module.path, '..', '${fileName}'));
 `;
 
