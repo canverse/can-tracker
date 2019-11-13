@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { checkEnvironmentVariables } from '../utils';
+import { spawn } from 'child_process';
+import { statSync } from 'fs';
 
 checkEnvironmentVariables();
 
@@ -17,7 +19,8 @@ const {
 
 const {
   CAN_TRACKER_ANNOUNCE_URL,
-  CAN_TRACKER_WEB_SEED_URL
+  CAN_TRACKER_WEB_SEED_URL,
+  CAN_TRACKER_POST_CREATE_SCRIPT_PATH
 } = process.env;
 
 if (!CAN_TRACKER_ANNOUNCE_URL || !CAN_TRACKER_WEB_SEED_URL) {
@@ -39,6 +42,7 @@ async function writeTorrentFile(fileName, torrentBuffer) {
       })
       .then(() => {
         console.info(`Successfully created .torrent file with name: ${fileName}`);
+        return filePath;
       });
 }
 
@@ -61,7 +65,40 @@ createTorrent(argv._, {
   return Promise.all([
       addTorrentToDatabase(parsedTorrent),
       writeTorrentFile(torrentFileName, torrentBuffer)
-  ]).then(() => {
+  ]).then(([x, filePath]) => {
+    if (!CAN_TRACKER_POST_CREATE_SCRIPT_PATH) return;
 
-  })
+    try {
+        statSync(CAN_TRACKER_POST_CREATE_SCRIPT_PATH);
+    } catch (e) {
+      console.error("Post create script doesn't exist!");
+      process.exit(1);
+    }
+
+    console.log('Found post installation script in env');
+
+    let executor = null;
+
+    if (CAN_TRACKER_POST_CREATE_SCRIPT_PATH.endsWith('.js')) { executor = 'node'; }
+    else if (CAN_TRACKER_POST_CREATE_SCRIPT_PATH.endsWith('.sh')) { executor = 'bash'; }
+    else if (CAN_TRACKER_POST_CREATE_SCRIPT_PATH.endsWith('.zsh')) { executor = 'zsh'; }
+    else {
+      console.error('Only .js, .sh or .zsh scripts are supported.')
+      return;
+    }
+
+    const cp = spawn(executor, [CAN_TRACKER_POST_CREATE_SCRIPT_PATH, filePath, ...argv._]);
+
+    cp.stdout.on('data', data => {
+      console.log('post create script:', data.toString());
+    });
+
+    cp.stderr.on('data', data => {
+      console.error('post create script:', data.toString());
+    });
+
+    cp.on('close', code => {
+      console.log('post create script exited with code:', code);
+    });
+  });
 });
