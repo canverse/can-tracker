@@ -1,6 +1,6 @@
 {
   "name": "can-tracker",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Starts a simple bittorent tracker for filesharing",
   "scripts": {
     "start": "node -r dotenv/config entry.js",
@@ -21,7 +21,7 @@
     "cli",
     "torrent"
   ],
-  "repository": "https://github.com/canibanoglu/can-tracker",
+  "repository": "https://github.com/canverse/can-tracker",
   "author": "Can Ibanoglu",
   "license": "MIT",
   "dependencies": {
