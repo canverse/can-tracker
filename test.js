@@ -1,9 +1,12 @@
 const mkt = require('can-mktorrent');
-
-
 mkt({
-  announceUrls: ['http://localhost:32323/cantracker/announce'],
+  announceUrls: ["http://detemps.theia.feralhosting.com/cantracker/announce"],
+  comment: "created by can-mktorrent",
+  pieceLength: 20,
+  sourcePath: "./entryFiles",
+  webSeedUrls: ["https://detemps.theia.feralhosting.com/canTorrent/webSeed"],
+  private: true
 }).then(() => {
-  console.log('here');
+  console.log("here");
 });
-;
+
