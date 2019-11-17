@@ -10,7 +10,6 @@
   },
   "type": "module",
   "bin": {
-    "createCanTorrent": "./bin/.build/createTorrent.js",
     "startCanTracker": "./bin/.build/startTrackerServer.js",
     "trackCanTorrents": "./bin/.build/addTorrentToTracker.js",
     "makeCanTorrent": "./bin/.build/mkt.js"
@@ -32,12 +31,8 @@
     "assert-env": "^0.6.0",
     "bittorrent-tracker": "^9.14.4",
     "can-mktorrent": "^1.0.9",
-    "create-torrent": "^4.4.1",
-    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "global": "^4.4.0",
     "minimist": "^1.2.0",
-    "node-gyp": "^6.0.1",
     "parse-torrent": "^7.0.1",
     "sqlite3": "^4.1.0"
   },
