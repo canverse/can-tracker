@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import {checkEnvironmentVariables} from "../utils";
-import {spawn} from "child_process";
-import {statSync, readFileSync} from "fs";
+import { checkEnvironmentVariables } from "../utils";
+import { spawn } from "child_process";
+import { statSync, readFileSync } from "fs";
 
 checkEnvironmentVariables();
 
@@ -56,12 +56,12 @@ createTorrent({
   private: true,
   announceUrls: [sanitizedAnnounceUURL],
   webSeedUrls: [CAN_TRACKER_WEB_SEED_URL],
-  comment: 'Created by can-tracker',
+  comment: "Created by can-tracker",
   output: torrentFileName,
   sourcePath: argv._[0]
 }).then(() => {
   const filePath = path.join(process.cwd(), torrentFileName);
-  console.log('torrent path:', filePath);
+  console.log("torrent path:", filePath);
   const parsedTorrent = parseTorrent(readFileSync(filePath));
 
   addTorrentToDatabase(parsedTorrent).then(() => {
@@ -91,7 +91,7 @@ createTorrent({
 
     const cp = spawn(executor, [
       CAN_TRACKER_POST_CREATE_SCRIPT_PATH,
-      filePath,
+      argv._[0],
       ...argv._
     ]);
 
@@ -107,5 +107,4 @@ createTorrent({
       console.log("post create script exited with code:", code);
     });
   });
-}
-)
+});
