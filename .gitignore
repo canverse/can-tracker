@@ -4,3 +4,4 @@ build/
 .env
 trackedTorrents.db
 bin/.build/*
+*.torrent
