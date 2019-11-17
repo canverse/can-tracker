@@ -30,6 +30,7 @@
   "dependencies": {
     "assert-env": "^0.6.0",
     "bittorrent-tracker": "^9.14.4",
+    "can-mktorrent": "^1.0.9",
     "create-torrent": "^4.4.1",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
