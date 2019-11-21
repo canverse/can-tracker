@@ -2,7 +2,7 @@
 const packageInfo = require("../package.json");
 const fs = require("fs").promises;
 const path = require("path");
-const { INFO } = require("./utils");
+const { INFO } = require("../utils");
 
 const WRAPPER_CONTENT = fileName => `#!/usr/bin/env node
 const path = require('path');
