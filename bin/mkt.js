@@ -75,6 +75,7 @@ createTorrent({
 
     const cp = spawn(executor, [
       CAN_TRACKER_POST_CREATE_SCRIPT_PATH,
+      filePath,
       argv._[0],
       ...argv._
     ]);
