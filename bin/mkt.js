@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { checkEnvironmentVariables } from "../utils";
+import { DEBUG, ERROR, INFO, checkEnvironmentVariables } from "../utils";
 import { spawn } from "child_process";
 import { statSync, readFileSync } from "fs";
 
@@ -8,7 +8,6 @@ checkEnvironmentVariables();
 const path = require("path");
 const createTorrent = require("can-mktorrent");
 const parseTorrent = require("parse-torrent");
-const fs = require("fs").promises;
 const argv = require("minimist")(process.argv.slice(2));
 
 const {
@@ -24,33 +23,18 @@ const {
 } = process.env;
 
 if (!CAN_TRACKER_ANNOUNCE_URL || !CAN_TRACKER_WEB_SEED_URL) {
-  console.error("Please set the require environment variables");
+  ERROR("Please set the require environment variables");
   process.exit(1);
 }
 
 const processDir = process.cwd();
 
-async function writeTorrentFile(fileName, torrentBuffer) {
-  const filePath = path.join(processDir, fileName);
-  const fileHandle = await fs.open(filePath, "w");
-  return fileHandle
-    .writeFile(torrentBuffer)
-    .catch(err => {
-      console.error(err);
-      throw err;
-    })
-    .then(() => {
-      console.info(`Successfully created .torrent file with name: ${fileName}`);
-      return filePath;
-    });
-}
-
 const sanitizedAnnounceUURL = CAN_TRACKER_ANNOUNCE_URL.endsWith("/")
   ? CAN_TRACKER_ANNOUNCE_URL.slice(0, CAN_TRACKER_ANNOUNCE_URL.length - 1)
   : CAN_TRACKER_ANNOUNCE_URL;
 
-console.info("Creating torrent...");
-console.log(argv._);
+INFO("Creating torrent...");
+DEBUG(argv._);
 const torrentFileName = `can_tracker_${path.basename(argv._[0])}.torrent`;
 createTorrent({
   private: true,
@@ -61,7 +45,7 @@ createTorrent({
   sourcePath: argv._[0]
 }).then(() => {
   const filePath = path.join(process.cwd(), torrentFileName);
-  console.log("torrent path:", filePath);
+  DEBUG("torrent path:", filePath);
   const parsedTorrent = parseTorrent(readFileSync(filePath));
 
   addTorrentToDatabase(parsedTorrent).then(() => {
@@ -70,11 +54,11 @@ createTorrent({
     try {
       statSync(CAN_TRACKER_POST_CREATE_SCRIPT_PATH);
     } catch (e) {
-      console.error("Post create script doesn't exist!");
+      ERROR("Post create script doesn't exist!");
       process.exit(1);
     }
 
-    console.log("Found post installation script in env");
+    INFO("Found post installation script in env");
 
     let executor = null;
 
@@ -85,7 +69,7 @@ createTorrent({
     } else if (CAN_TRACKER_POST_CREATE_SCRIPT_PATH.endsWith(".zsh")) {
       executor = "zsh";
     } else {
-      console.error("Only .js, .sh or .zsh scripts are supported.");
+      ERROR("Only .js, .sh or .zsh scripts are supported.");
       return;
     }
 
@@ -96,15 +80,15 @@ createTorrent({
     ]);
 
     cp.stdout.on("data", data => {
-      console.log("post create script:", data.toString());
+      INFO(">\t post create script:", data.toString());
     });
 
     cp.stderr.on("data", data => {
-      console.error("post create script:", data.toString());
+      ERROR(">\t post create script:", data.toString());
     });
 
     cp.on("close", code => {
-      console.log("post create script exited with code:", code);
+      INFO(">\t post create script exited with code:", code);
     });
   });
 });

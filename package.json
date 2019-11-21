@@ -31,6 +31,7 @@
     "assert-env": "^0.6.0",
     "bittorrent-tracker": "^9.14.4",
     "can-mktorrent": "^1.0.9",
+    "chalk": "^3.0.0",
     "esm": "^3.2.25",
     "minimist": "^1.2.0",
     "parse-torrent": "^7.0.1",

@@ -1,4 +1,5 @@
-const mkt = require('can-mktorrent');
+const mkt = require("can-mktorrent");
+/*
 mkt({
   announceUrls: ["http://detemps.theia.feralhosting.com/cantracker/announce"],
   comment: "created by can-mktorrent",
@@ -9,4 +10,13 @@ mkt({
 }).then(() => {
   console.log("here");
 });
+*/
 
+const { DEBUG, INFO, ERROR } = require("./utils");
+const util = require("util");
+
+DEBUG("debug information");
+
+INFO("normal information");
+
+ERROR("error information");

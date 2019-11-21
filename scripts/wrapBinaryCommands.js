@@ -2,11 +2,11 @@
 const packageInfo = require("../package.json");
 const fs = require("fs").promises;
 const path = require("path");
+const { INFO } = require("utils");
 
 const WRAPPER_CONTENT = fileName => `#!/usr/bin/env node
 const path = require('path');
 require = require('esm')(module);
-console.log(module.path);
 module.exports = require(path.join(module.path, '..', '${fileName}'));
 `;
 
@@ -23,8 +23,8 @@ export async function wrapBinaryCommands() {
     });
   });
 
-  console.info("Creating wrapper bin files under ./bin/.build/");
+  INFO("Creating wrapper bin files under ./bin/.build/");
   Promise.all(promises).then(() => {
-    console.info("Successfully finished wrapping binary commands");
+    INFO("Successfully finished wrapping binary commands");
   });
 }
