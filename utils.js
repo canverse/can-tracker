@@ -19,7 +19,7 @@ export function checkEnvironmentVariables() {
 const { CAN_TRACKER_DEBUG } = process.env;
 
 const errorColor = chalk.bold.red;
-const infoColor = chalk.bold.black;
+const infoColor = chalk.bold;
 const debugColor = chalk.cyan;
 const warningColor = chalk.yellow;
 
@@ -43,6 +43,6 @@ export function ERROR() {
 }
 
 export function WARN() {
-  log(warninwarningColor, ...arguments);
+  log(warningColor, ...arguments);
 }
 

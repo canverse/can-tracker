@@ -12,7 +12,7 @@ mkt({
 });
 */
 
-const { DEBUG, INFO, ERROR } = require("./utils");
+const { DEBUG, INFO, ERROR, WARN } = require("./utils");
 const util = require("util");
 
 DEBUG("debug information");
@@ -20,3 +20,5 @@ DEBUG("debug information");
 INFO("normal information");
 
 ERROR("error information");
+
+WARN("warn information");
