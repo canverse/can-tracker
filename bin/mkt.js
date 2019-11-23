@@ -36,13 +36,15 @@ const sanitizedAnnounceUURL = CAN_TRACKER_ANNOUNCE_URL.endsWith("/")
 INFO("Creating torrent...");
 DEBUG(argv._);
 const torrentFileName = `can_tracker_${path.basename(argv._[0])}.torrent`;
+const verbose = argv.v || argv.verbose || false;
 createTorrent({
   private: true,
   announceUrls: [sanitizedAnnounceUURL],
   webSeedUrls: [CAN_TRACKER_WEB_SEED_URL],
   comment: "Created by can-tracker",
   output: torrentFileName,
-  sourcePath: argv._[0]
+  sourcePath: argv._[0],
+  verbose
 }).then(() => {
   const filePath = path.join(process.cwd(), torrentFileName);
   DEBUG("torrent path:", filePath);
